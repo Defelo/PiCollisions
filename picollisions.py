@@ -1,6 +1,8 @@
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from decimal import Decimal
+
+from PyQt5.QtCore import Qt, QBasicTimer, QTimerEvent
+from PyQt5.QtGui import QPainter, QPaintEvent, QKeyEvent, QPen, QColor, QFont, QFontMetrics
+from PyQt5.QtWidgets import QWidget, QApplication
 
 from physics import calculate_collision
 
@@ -12,14 +14,14 @@ class Window(QWidget):
         self.setWindowTitle("Pi Collisions")
         self.setFixedSize(640, 480)
 
-        self.m1: float = 1
-        self.v1: float = 0
-        self.x1: float = 150
+        self.m1: int = 1
+        self.v1: Decimal = Decimal(0)
+        self.x1: Decimal = Decimal(150)
         self.s1: int = 50
 
-        self.m2: float = 100
-        self.v2: float = -1
-        self.x2: float = 300
+        self.m2: int = 100 ** 1
+        self.v2: Decimal = Decimal(-1)
+        self.x2: Decimal = Decimal(300)
         self.s2: int = 100
 
         self.timer = QBasicTimer()
