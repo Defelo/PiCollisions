@@ -2,6 +2,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+from physics import calculate_collision
+
 
 class Window(QWidget):
     def __init__(self):
@@ -40,16 +42,7 @@ class Window(QWidget):
             self.v1 *= -1
             self.counter += 1
         if self.x1 + self.s1 >= self.x2:
-            m1, m2 = self.m1, self.m2
-            v1, v2 = self.v1, self.v2
-            mv: float = m1 * v1 + m2 * v2
-            s: float = m1 + m2
-            b: float = mv / s
-            d: float = (b ** 2 - (mv ** 2 - (m1 * v1 ** 2 + m2 * v2 ** 2) * m2) / (m1 * s)) ** .5
-            self.v1 = max([b - d, b + d], key=lambda a: abs(a - v1))
-            d: float = (b ** 2 - (mv ** 2 - (m1 * v1 ** 2 + m2 * v2 ** 2) * m1) / (m2 * s)) ** .5
-            self.v2 = max([b - d, b + d], key=lambda a: abs(a - v2))
-
+            self.v1, self.v2 = calculate_collision(self.m1, self.v1, self.m2, self.v2)
             self.counter += 1
 
     def keyReleaseEvent(self, e: QKeyEvent):
