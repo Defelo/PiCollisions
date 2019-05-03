@@ -21,13 +21,13 @@ wall: bool = False
 while not (0 <= v1 <= v2):
     if wall:
         # left block collides with wall
-        time_wall_collision: float = x1 / -v1
+        time_wall_collision: Decimal = x1 / -v1
         x1 += time_wall_collision * v1
         x2 += time_wall_collision * v2
         v1 *= -1
     else:
         # blocks collide with each other
-        time_block_collision: float = (w + x1 - x2) / (v2 - v1)
+        time_block_collision: Decimal = (w + x1 - x2) / (v2 - v1)
         x1 += time_block_collision * v1
         x2 += time_block_collision * v2
         v1, v2 = calculate_collision(m1, v1, m2, v2)
