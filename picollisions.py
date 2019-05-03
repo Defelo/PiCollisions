@@ -24,10 +24,13 @@ class Window(QWidget):
         self.x2: Decimal = Decimal(300)
         self.s2: int = 100
 
-        self.timer = QBasicTimer()
+        self.t: Decimal = Decimal(0)
+        self.wall: bool = False
+
+        self.timer: QBasicTimer = QBasicTimer()
         self.timer.start(20, self)
 
-        self.counter = 0
+        self.counter: int = 0
 
         self.show()
 
@@ -37,15 +40,40 @@ class Window(QWidget):
             self.repaint()
 
     def tick(self):
-        self.x1 += self.v1
-        self.x2 += self.v2
+        target_time: Decimal = self.t + 1
 
-        if self.x1 <= 0:
-            self.v1 *= -1
+        while self.t < target_time:
+            if 0 <= self.v1 <= self.v2:
+                self.x1 += self.v1
+                self.x2 += self.v2
+                self.t += 1
+                break
+            if self.wall:
+                # left block collides with wall
+                time_wall_collision: Decimal = self.x1 / -self.v1
+                if time_wall_collision > 1:
+                    self.x1 += self.v1
+                    self.x2 += self.v2
+                    self.t += 1
+                    break
+                self.x1 += time_wall_collision * self.v1
+                self.x2 += time_wall_collision * self.v2
+                self.v1 *= -1
+                self.t += time_wall_collision
+            else:
+                # blocks collide with each other
+                time_block_collision: Decimal = (self.s1 + self.x1 - self.x2) / (self.v2 - self.v1)
+                if time_block_collision > 1:
+                    self.x1 += self.v1
+                    self.x2 += self.v2
+                    self.t += 1
+                    break
+                self.x1 += time_block_collision * self.v1
+                self.x2 += time_block_collision * self.v2
+                self.v1, self.v2 = calculate_collision(self.m1, self.v1, self.m2, self.v2)
+                self.t += time_block_collision
             self.counter += 1
-        if self.x1 + self.s1 >= self.x2:
-            self.v1, self.v2 = calculate_collision(self.m1, self.v1, self.m2, self.v2)
-            self.counter += 1
+            self.wall = not self.wall
 
     def keyReleaseEvent(self, e: QKeyEvent):
         if e.key() == Qt.Key_Q:
