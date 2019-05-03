@@ -92,9 +92,8 @@ class Window(QWidget):
         qp.setPen(QPen(Qt.black, 2))
         qp.setBrush(QColor("#444444"))
 
-        x1: int = max(int(self.x1), 0)
-        qp.drawRect(50 + x1, self.height() - 52 - self.s1, self.s1, self.s1)
-        qp.drawRect(50 + max(x1 + self.s1, int(self.x2)), self.height() - 52 - self.s2, self.s2, self.s2)
+        qp.drawRect(50 + int(self.x1), self.height() - 52 - self.s1, self.s1, self.s1)
+        qp.drawRect(50 + int(self.x2), self.height() - 52 - self.s2, self.s2, self.s2)
 
         f: QFont = QFont()
         f.setPixelSize(32)
