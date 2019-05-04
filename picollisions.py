@@ -101,6 +101,15 @@ class Window(QWidget):
         t: str = str(self.counter)
         qp.drawText(self.width() - 10 - QFontMetrics(f).width(t), 32, t)
 
+        f.setPixelSize(20)
+        qp.setFont(f)
+        t: str = f"{self.v1:.2f}"
+        w: int = QFontMetrics(f).width(t)
+        qp.drawText(50 + int(self.x1) + self.s1 // 2 - w // 2, self.height() - 60 - self.s1, t)
+        t: str = f"{self.v2:.2f}"
+        w: int = QFontMetrics(f).width(t)
+        qp.drawText(50 + int(self.x2) + self.s2 // 2 - w // 2, self.height() - 60 - self.s2, t)
+
 
 if __name__ == '__main__':
     qa: QApplication = QApplication([])
